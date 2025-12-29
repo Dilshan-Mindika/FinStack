@@ -11,6 +11,10 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+const userRoutes = require('./routes/userRoutes');
+app.use('/api/users', userRoutes);
+
+
 // Basic health check route
 app.get('/', (req, res) => {
     res.send('API is running...');
