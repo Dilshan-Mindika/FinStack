@@ -1,4 +1,5 @@
 const OrganizationModel = require('../models/organizationModel');
+const UserRoleModel = require('../models/userRoleModel');
 
 class OrganizationController {
     static async createOrganization(req, res) {
