@@ -1,6 +1,7 @@
 const UserModel = require('../models/userModel');
 const OrganizationModel = require('../models/organizationModel');
 const UserRoleModel = require('../models/userRoleModel');
+const UserSessionModel = require('../models/userSessionModel');
 const { generateToken } = require('../utils/jwtUtils');
 
 class AuthController {
