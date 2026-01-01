@@ -2,11 +2,13 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import api from '../api/axios';
 import { FaPlus, FaPercentage, FaTrash, FaEdit } from 'react-icons/fa';
+import TaxRateModal from '../components/TaxRateModal';
 
 const TaxSettings = () => {
     const { currentBook } = useAuth();
     const [taxes, setTaxes] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
         const fetchTaxes = async () => {
@@ -28,12 +30,19 @@ const TaxSettings = () => {
 
     return (
         <div>
+            {showModal && (
+                <TaxRateModal
+                    bookId={currentBook.id}
+                    onClose={() => setShowModal(false)}
+                    onSave={(newTax) => setTaxes([...taxes, newTax])}
+                />
+            )}
             <div className="flex justify-between items-center mb-6">
                 <div>
                     <h1 className="text-2xl font-bold">Tax Rates</h1>
                     <p className="text-muted">Manage the tax rates used in your invoices and bills.</p>
                 </div>
-                <button className="btn btn-primary" style={{ gap: '8px' }}>
+                <button onClick={() => setShowModal(true)} className="btn btn-primary" style={{ gap: '8px' }}>
                     <FaPlus />
                     New Tax Rate
                 </button>

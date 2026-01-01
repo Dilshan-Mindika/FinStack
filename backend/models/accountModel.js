@@ -11,6 +11,12 @@ class AccountModel {
         const result = await db.query(query, values);
         return result.rows[0];
     }
+
+    static async findByBookId(book_id) {
+        const query = `SELECT * FROM "Account" WHERE book_id = $1 ORDER BY code ASC, name ASC`;
+        const result = await db.query(query, [book_id]);
+        return result.rows;
+    }
 }
 
 module.exports = AccountModel;
