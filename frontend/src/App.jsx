@@ -9,6 +9,8 @@ import Profile from './pages/Profile';
 import OrgSettings from './pages/OrgSettings';
 import UserManagement from './pages/UserManagement';
 import BookSetup from './pages/BookSetup';
+import Settings from './pages/Settings';
+import TaxSettings from './pages/TaxSettings';
 
 // Protected Route Wrapper
 const ProtectedRoute = ({ children }) => {
@@ -44,6 +46,8 @@ function App() {
         <Route path="organization" element={<OrgSettings />} />
         <Route path="users" element={<UserManagement />} />
         <Route path="setup-book" element={<BookSetup />} />
+        <Route path="settings" element={<Settings />} />
+        <Route path="settings/taxes" element={<TaxSettings />} />
       </Route>
 
       {/* Default Redirect */}
