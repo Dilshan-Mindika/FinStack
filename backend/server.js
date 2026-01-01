@@ -12,7 +12,11 @@ app.use(cors());
 app.use(express.json());
 
 const userRoutes = require('./routes/userRoutes');
+const organizationRoutes = require('./routes/organizationRoutes');
+
 app.use('/api/users', userRoutes);
+app.use('/api/organizations', organizationRoutes);
+
 
 
 // Basic health check route
