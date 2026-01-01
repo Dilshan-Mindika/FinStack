@@ -6,6 +6,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [organization, setOrganization] = useState(null);
+    const [currentBook, setCurrentBook] = useState(null);
     const [loading, setLoading] = useState(true);
 
     // Load user from local storage or verify token on mount
@@ -17,9 +18,16 @@ export const AuthProvider = ({ children }) => {
                     const res = await api.get('/auth/me');
                     setUser({ ...res.data, token: token }); // Assuming /me returns user info
                     setOrganization(res.data.organization);
+
+                    // Try to restore book from local storage
+                    const savedBook = localStorage.getItem('currentBook');
+                    if (savedBook) {
+                        setCurrentBook(JSON.parse(savedBook));
+                    }
                 } catch (error) {
                     console.error("Failed to load user", error);
                     localStorage.removeItem('token');
+                    localStorage.removeItem('currentBook');
                 }
             }
             setLoading(false);
@@ -49,12 +57,19 @@ export const AuthProvider = ({ children }) => {
 
     const logout = () => {
         localStorage.removeItem('token');
+        localStorage.removeItem('currentBook');
         setUser(null);
         setOrganization(null);
+        setCurrentBook(null);
+    };
+
+    const selectBook = (book) => {
+        setCurrentBook(book);
+        localStorage.setItem('currentBook', JSON.stringify(book));
     };
 
     return (
-        <AuthContext.Provider value={{ user, organization, loading, login, register, logout }}>
+        <AuthContext.Provider value={{ user, organization, currentBook, selectBook, loading, login, register, logout }}>
             {children}
         </AuthContext.Provider>
     );

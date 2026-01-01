@@ -8,6 +8,7 @@ import DashboardLayout from './layouts/DashboardLayout';
 import Profile from './pages/Profile';
 import OrgSettings from './pages/OrgSettings';
 import UserManagement from './pages/UserManagement';
+import BookSetup from './pages/BookSetup';
 
 // Protected Route Wrapper
 const ProtectedRoute = ({ children }) => {
@@ -42,6 +43,7 @@ function App() {
         <Route path="profile" element={<Profile />} />
         <Route path="organization" element={<OrgSettings />} />
         <Route path="users" element={<UserManagement />} />
+        <Route path="setup-book" element={<BookSetup />} />
       </Route>
 
       {/* Default Redirect */}
