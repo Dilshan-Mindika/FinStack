@@ -23,6 +23,17 @@ class UserRoleModel {
         return result.rows;
     }
 
+    static async findByOrganizationId(organization_id) {
+        const query = `
+      SELECT ur.*, u.first_name, u.last_name, u.email, u.id as user_id
+      FROM "UserRole" ur
+      JOIN "User" u ON ur.user_id = u.id
+      WHERE ur.organization_id = $1
+    `;
+        const result = await db.query(query, [organization_id]);
+        return result.rows;
+    }
+
     static async update(id, { role, permissions }) {
         const query = `
       UPDATE "UserRole"

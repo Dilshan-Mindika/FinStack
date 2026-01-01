@@ -22,18 +22,7 @@ const ProtectedRoute = ({ children }) => {
   return children;
 };
 
-const DashboardPlaceholder = () => {
-  const { logout, user, organization } = useAuth();
-  return (
-    <div style={{ padding: '2rem', color: 'white' }}>
-      <h1>Dashboard</h1>
-      <p>Welcome, {user.first_name}!</p>
-      <p>Role: {user.role}</p>
-      <p>Organization: {organization ? organization.name : 'None'}</p>
-      <button onClick={logout} className="btn btn-secondary">Logout</button>
-    </div>
-  )
-}
+const DashboardHome = () => <div className="card"><h3>Dashboard Home</h3><p>Overview widgets will go here.</p></div>;
 
 function App() {
   return (
@@ -41,13 +30,19 @@ function App() {
       <Route element={<AuthLayout />}>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
       </Route>
 
       <Route path="/dashboard" element={
         <ProtectedRoute>
-          <DashboardPlaceholder />
+          <DashboardLayout />
         </ProtectedRoute>
-      } />
+      }>
+        <Route index element={<DashboardHome />} />
+        <Route path="profile" element={<Profile />} />
+        <Route path="organization" element={<OrgSettings />} />
+        <Route path="users" element={<UserManagement />} />
+      </Route>
 
       {/* Default Redirect */}
       <Route path="/" element={<Navigate to="/dashboard" />} />

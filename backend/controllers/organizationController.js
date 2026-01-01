@@ -23,6 +23,15 @@ class OrganizationController {
         }
     }
 
+    static async getOrganizationUsers(req, res) {
+        try {
+            const users = await UserRoleModel.findByOrganizationId(req.params.id);
+            res.json(users);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+
     static async updateOrganization(req, res) {
         try {
             const org = await OrganizationModel.update(req.params.id, req.body);
