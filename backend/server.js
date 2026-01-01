@@ -13,9 +13,12 @@ app.use(express.json());
 
 const userRoutes = require('./routes/userRoutes');
 const organizationRoutes = require('./routes/organizationRoutes');
+const userRoleRoutes = require('./routes/userRoleRoutes');
 
 app.use('/api/users', userRoutes);
 app.use('/api/organizations', organizationRoutes);
+app.use('/api/user-roles', userRoleRoutes);
+
 
 
 
