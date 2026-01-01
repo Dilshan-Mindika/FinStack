@@ -19,6 +19,7 @@ const commodityRoutes = require('./routes/commodityRoutes');
 const bookRoutes = require('./routes/bookRoutes');
 const taxRoutes = require('./routes/taxRoutes');
 const accountRoutes = require('./routes/accountRoutes');
+const userPreferenceRoutes = require('./routes/userPreferenceRoutes');
 
 app.use('/api/users', userRoutes);
 app.use('/api/organizations', organizationRoutes);
@@ -28,6 +29,7 @@ app.use('/api/commodities', commodityRoutes);
 app.use('/api/books', bookRoutes);
 app.use('/api/taxes', taxRoutes);
 app.use('/api/accounts', accountRoutes);
+app.use('/api/preferences', userPreferenceRoutes);
 
 
 
