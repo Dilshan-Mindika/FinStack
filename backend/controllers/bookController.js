@@ -1,6 +1,7 @@
 const BookModel = require('../models/bookModel');
 const CommodityModel = require('../models/commodityModel');
 const AccountModel = require('../models/accountModel');
+const BookSettingsModel = require('../models/bookSettingsModel');
 const db = require('../db');
 
 class BookController {
@@ -54,6 +55,14 @@ class BookController {
             `;
             const finalBookRes = await client.query(updateBookQuery, [baseCurrency.id, rootAccount.id, book.id]);
 
+            // 5. Initialize BookSettings
+            const settingsQuery = `
+                INSERT INTO "BookSettings" (book_id, use_trading_accounts, use_split_action_field, auto_readonly_days, enable_euro_support, accounting_period)
+                VALUES ($1, false, false, '0', false, '{}')
+                RETURNING *
+            `;
+            await client.query(settingsQuery, [book.id]);
+
             await client.query('COMMIT');
 
             res.status(201).json({
@@ -75,6 +84,25 @@ class BookController {
         try {
             const books = await BookModel.findByOrganizationId(req.params.orgId);
             res.json(books);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+
+    static async getBookSettings(req, res) {
+        try {
+            const settings = await BookSettingsModel.findByBookId(req.params.bookId);
+            if (!settings) return res.status(404).json({ error: 'Settings not found' });
+            res.json(settings);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+
+    static async updateBookSettings(req, res) {
+        try {
+            const settings = await BookSettingsModel.update(req.params.bookId, req.body);
+            res.json(settings);
         } catch (error) {
             res.status(500).json({ error: error.message });
         }

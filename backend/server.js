@@ -14,14 +14,12 @@ app.use(express.json());
 const userRoutes = require('./routes/userRoutes');
 const organizationRoutes = require('./routes/organizationRoutes');
 const userRoleRoutes = require('./routes/userRoleRoutes');
-const userRoleRoutes = require('./routes/userRoleRoutes');
 const authRoutes = require('./routes/authRoutes');
 const commodityRoutes = require('./routes/commodityRoutes');
 const bookRoutes = require('./routes/bookRoutes');
 
 app.use('/api/users', userRoutes);
 app.use('/api/organizations', organizationRoutes);
-app.use('/api/user-roles', userRoleRoutes);
 app.use('/api/user-roles', userRoleRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/commodities', commodityRoutes);
