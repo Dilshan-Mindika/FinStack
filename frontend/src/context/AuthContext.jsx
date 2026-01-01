@@ -9,6 +9,15 @@ export const AuthProvider = ({ children }) => {
     const [currentBook, setCurrentBook] = useState(null);
     const [loading, setLoading] = useState(true);
 
+    // Theme Effect
+    useEffect(() => {
+        if (user?.preferences?.ui_settings?.theme === 'light') {
+            document.body.classList.add('light-mode');
+        } else {
+            document.body.classList.remove('light-mode');
+        }
+    }, [user?.preferences?.ui_settings?.theme]);
+
     // Load user from local storage or verify token on mount
     useEffect(() => {
         const loadUser = async () => {
@@ -68,8 +77,22 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('currentBook', JSON.stringify(book));
     };
 
+    const updateUser = (userData) => {
+        setUser(prev => ({ ...prev, ...userData }));
+    };
+
     return (
-        <AuthContext.Provider value={{ user, organization, currentBook, selectBook, loading, login, register, logout }}>
+        <AuthContext.Provider value={{
+            user,
+            organization,
+            currentBook,
+            loading,
+            login,
+            register,
+            logout,
+            selectBook,
+            updateUser
+        }}>
             {children}
         </AuthContext.Provider>
     );

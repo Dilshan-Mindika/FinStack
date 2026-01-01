@@ -2,7 +2,9 @@ const bcrypt = require('bcrypt');
 const UserModel = require('../models/userModel');
 const OrganizationModel = require('../models/organizationModel');
 const UserRoleModel = require('../models/userRoleModel');
+const UserRoleModel = require('../models/userRoleModel');
 const UserSessionModel = require('../models/userSessionModel');
+const UserPreferenceModel = require('../models/userPreferenceModel');
 const { generateToken } = require('../utils/jwtUtils');
 
 class AuthController {
@@ -121,13 +123,17 @@ class AuthController {
                     organization = await OrganizationModel.findById(roles[0].organization_id);
                 }
 
+                // 7. Get Preferences
+                const preferences = await UserPreferenceModel.findByUserId(user.id);
+
                 res.json({
                     user: {
                         id: user.id,
                         email: user.email,
                         first_name: user.first_name,
                         last_name: user.last_name,
-                        role: role
+                        role: role,
+                        preferences: preferences || {}
                     },
                     organization: organization,
                     token
@@ -158,6 +164,9 @@ class AuthController {
                 organization = await OrganizationModel.findById(roles[0].organization_id);
             }
 
+            // Get Preferences
+            const preferences = await UserPreferenceModel.findByUserId(user.id);
+
             res.json({
                 id: user.id,
                 email: user.email,
@@ -165,7 +174,8 @@ class AuthController {
                 last_name: user.last_name,
                 phone: user.phone,
                 role,
-                organization
+                organization,
+                preferences: preferences || {}
             });
         } catch (error) {
             console.error(error);
